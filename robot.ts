@@ -1,58 +1,287 @@
-//% color="#f39c12" weight=100 icon="\uf1b9" block="Robot"
-namespace customRobot {
+//% color="#e67e22" weight=100 icon="\uf1b9" block="Robot"
+namespace robot {
+
+    // ==========================================
+    // Ultrasonic
+    // ==========================================
 
     /**
      * อ่านค่าระยะทางจากเซนเซอร์ Ultrasonic (cm)
      */
     //% block="ultrasonic distance (cm)"
+    //% group="Ultrasonic" weight=100
     export function ultrasonicDistance(): number {
-        // ใส่โค้ดคำนวณระยะทาง Ultrasonic ที่นี่
         return 0;
     }
+
+    // ==========================================
+    // Headlights
+    // ==========================================
 
     /**
      * ตั้งค่าไฟหน้า On / Off
      */
     //% block="set %light headlight to %state"
-    export function setHeadlight(light: LightSide, state: ToggleState): void {
-        // ใส่โค้ดเปิด/ปิดพิน LED ที่นี่
+    //% group="Headlights" weight=90
+    export function setHeadlight(light: RobotLightSide, state: RobotToggleState): void {
+        // โค้ดควบคุมไฟหน้า
     }
 
     /**
-     * ควบคุมทิศทางและความเร็วรถ
+     * สลับสถานะไฟหน้า (Toggle)
+     */
+    //% block="Toggle %light headlight"
+    //% group="Headlights" weight=89
+    export function toggleHeadlight(light: RobotLightSide): void {
+        // โค้ดสลับสถานะไฟหน้า
+    }
+
+    // ==========================================
+    // DC Motors
+    // ==========================================
+
+    /**
+     * หยุดมอเตอร์ทั้งหมด
+     */
+    //% block="brake"
+    //% group="DC Motors" weight=80
+    export function brake(): void {
+        // โค้ดเบรกมอเตอร์ทั้งหมด
+    }
+
+    /**
+     * เคลื่อนที่ เดินหน้า / ถอยหลัง
      */
     //% block="move %dir at speed %speed"
     //% speed.min=0 speed.max=255 speed.defl=128
-    export function move(dir: MoveDirection, speed: number): void {
-        // ใส่โค้ดควบคุมมอเตอร์ที่นี่
+    //% group="DC Motors" weight=79
+    export function move(dir: RobotMoveDirection, speed: number): void {
+        // โค้ดสั่งการเคลื่อนที่
     }
 
     /**
-     * หยุดมอเตอร์ (Brake)
+     * เลี้ยว ซ้าย / ขวา
      */
-    //% block="brake"
-    export function brake(): void {
-        // ใส่โค้ดหยุดมอเตอร์ที่นี่
+    //% block="turn %dir at speed %speed"
+    //% speed.min=0 speed.max=255 speed.defl=128
+    //% group="DC Motors" weight=78
+    export function turn(dir: RobotTurnDirection, speed: number): void {
+        // โค้ดสั่งการเลี้ยว
+    }
+
+    /**
+     * กำหนดความเร็วแยกมอเตอร์ซ้ายและขวา
+     */
+    //% block="set motors speed: left %leftSpeed right %rightSpeed"
+    //% leftSpeed.min=-255 leftSpeed.max=255 leftSpeed.defl=0
+    //% rightSpeed.min=-255 rightSpeed.max=255 rightSpeed.defl=0
+    //% group="DC Motors" weight=77
+    export function setMotorsSpeed(leftSpeed: number, rightSpeed: number): void {
+        // โค้ดกำหนดความเร็วมอเตอร์แยกฝั่ง
+    }
+
+    /**
+     * หยุดมอเตอร์รายตัว (M1 / M2)
+     */
+    //% block="brake motor %motor"
+    //% group="DC Motors" weight=76
+    export function brakeMotor(motor: RobotMotorChannel): void {
+        // โค้ดหยุดมอเตอร์เฉพาะตัว
+    }
+
+    /**
+     * สั่งมอเตอร์รายตัวหมุน
+     */
+    //% block="run motor %motor %dir at speed %speed"
+    //% speed.min=0 speed.max=255 speed.defl=128
+    //% group="DC Motors" weight=75
+    export function runMotor(motor: RobotMotorChannel, dir: RobotMoveDirection, speed: number): void {
+        // โค้ดหมุนมอเตอร์เฉพาะตัว
+    }
+
+    // ==========================================
+    // Maker Line
+    // ==========================================
+
+    /**
+     * ตรวจจับเส้นตามตำแหน่งเซนเซอร์
+     */
+    //% block="line detected on %sensor"
+    //% group="Maker Line" weight=70
+    export function lineDetected(sensor: RobotLineSensorPos): boolean {
+        return false;
+    }
+
+    /**
+     * อ่านค่าตำแหน่งเส้น
+     */
+    //% block="line position"
+    //% group="Maker Line" weight=69
+    export function linePosition(): number {
+        return 0;
+    }
+
+    // ==========================================
+    // Servos
+    // ==========================================
+
+    /**
+     * ปิดการทำงานของ Servo
+     */
+    //% block="disable servo %servo"
+    //% group="Servos" weight=60
+    export function disableServo(servo: RobotServoChannel): void {
+        // โค้ดปิดสัญญาณ Servo
+    }
+
+    /**
+     * หมุน Servo ไปยังมุมที่กำหนด
+     */
+    //% block="set servo %servo position to %degrees degrees"
+    //% degrees.min=0 degrees.max=180 degrees.defl=90
+    //% group="Servos" weight=59
+    export function setServo(servo: RobotServoChannel, degrees: number): void {
+        // โค้ดหมุน Servo
+    }
+
+    // ==========================================
+    // RGB LED
+    // ==========================================
+
+    /**
+     * ล้างค่าไฟ RGB ทั้งหมด (ปิดไฟ)
+     */
+    //% block="clear all RGB pixels"
+    //% group="RGB LED" weight=50
+    export function clearRgbPixels(): void {
+        // โค้ดปิดไฟ RGB
+    }
+
+    /**
+     * ตั้งค่าความสว่าง RGB LED
+     */
+    //% block="set RGB pixels brightness to %brightness"
+    //% brightness.min=0 brightness.max=255 brightness.defl=25
+    //% group="RGB LED" weight=49
+    export function setRgbBrightness(brightness: number): void {
+        // โค้ดปรับความสว่าง
+    }
+
+    /**
+     * ตั้งค่าสี RGB ทุกดวง
+     */
+    //% block="set all RGB pixels to %color=neopixel_colors"
+    //% group="RGB LED" weight=48
+    export function setAllRgb(color: number): void {
+        // โค้ดเปลี่ยนสีทุกดวง
+    }
+
+    /**
+     * ตั้งค่าสี RGB รายดวง
+     */
+    //% block="set RGB pixel %index to %color=neopixel_colors"
+    //% index.min=0 index.defl=0
+    //% group="RGB LED" weight=47
+    export function setRgbPixel(index: number, color: number): void {
+        // โค้ดเปลี่ยนสีรายดวง
+    }
+
+    /**
+     * เลือกสีสำเร็จรูป
+     */
+    //% block="%color"
+    //% group="RGB LED" weight=46
+    export function colors(color: RobotNeoPixelColors): number {
+        return color;
+    }
+
+    /**
+     * ผสมสีด้วยค่า R G B (0-255)
+     */
+    //% block="red %red green %green blue %blue"
+    //% red.min=0 red.max=255 red.defl=255
+    //% green.min=0 green.max=255 green.defl=255
+    //% blue.min=0 blue.max=255 blue.defl=255
+    //% group="RGB LED" weight=45
+    export function rgb(red: number, green: number, blue: number): number {
+        return (red << 16) | (green << 8) | blue;
     }
 }
 
-enum LightSide {
+// ==========================================
+// Enum Definitions (Unique Names)
+// ==========================================
+
+enum RobotLightSide {
     //% block="left"
     Left,
     //% block="right"
     Right
 }
 
-enum ToggleState {
+enum RobotToggleState {
     //% block="on"
     On,
     //% block="off"
     Off
 }
 
-enum MoveDirection {
+enum RobotMoveDirection {
     //% block="forward"
     Forward,
     //% block="backward"
     Backward
+}
+
+enum RobotTurnDirection {
+    //% block="left"
+    Left,
+    //% block="right"
+    Right
+}
+
+enum RobotMotorChannel {
+    //% block="M1"
+    M1,
+    //% block="M2"
+    M2
+}
+
+enum RobotLineSensorPos {
+    //% block="far left"
+    FarLeft,
+    //% block="left"
+    Left,
+    //% block="center"
+    Center,
+    //% block="right"
+    Right,
+    //% block="far right"
+    FarRight
+}
+
+enum RobotServoChannel {
+    //% block="S1"
+    S1,
+    //% block="S2"
+    S2,
+    //% block="S3"
+    S3
+}
+
+enum RobotNeoPixelColors {
+    //% block="red"
+    Red = 0xFF0000,
+    //% block="orange"
+    Orange = 0xFFA500,
+    //% block="yellow"
+    Yellow = 0xFFFF00,
+    //% block="green"
+    Green = 0x00FF00,
+    //% block="blue"
+    Blue = 0x0000FF,
+    //% block="purple"
+    Purple = 0x800080,
+    //% block="white"
+    White = 0xFFFFFF
 }

@@ -4,7 +4,8 @@
     "dependencies": {
         "core": "*",
         "radio": "*",
-        "microphone": "*"
+        "microphone": "*",
+        "code for robot car": "github:amslthy/code-for-robot-car#d9806520b81101248bd5302913835997043dfb09"
     },
     "files": [
         "main.blocks",
